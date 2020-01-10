@@ -1,0 +1,2 @@
+include ':app', ':networkdetector'
+rootProject.name='NetworkDetectorSample'
