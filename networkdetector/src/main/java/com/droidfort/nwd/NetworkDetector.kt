@@ -16,6 +16,10 @@ class NetworkDetector private constructor(context: Context?) : NetworkChangeRece
     var context: WeakReference<Context?> = WeakReference(context?.applicationContext)
     var mNetworkChangeListenerList:MutableList<WeakReference<NetworkChangeListener?>> = ArrayList()
 
+    /**
+     * provide current network status
+     * params isNetworkAvailable - boolean
+     */
     override fun onNetworkChange(isNetworkAvailable: Boolean) {
         this.isNetworkAvailable = isNetworkAvailable
         updateCurrentNetworkStatus()
