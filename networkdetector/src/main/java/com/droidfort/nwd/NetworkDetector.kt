@@ -2,6 +2,8 @@ package com.droidfort.netdetector
 
 import android.content.Context
 import android.content.IntentFilter
+import android.view.View
+import com.google.android.material.snackbar.Snackbar
 import java.lang.ref.WeakReference
 
 class NetworkDetector private constructor(context: Context?) : NetworkChangeReceiver.InternetChangeListener {
@@ -48,6 +50,10 @@ class NetworkDetector private constructor(context: Context?) : NetworkChangeRece
 
     }
 
+    /**
+     * provide current device network status
+     * return true/false
+     */
     fun isNetworkAvailable():Boolean {
         isNetworkAvailable = Net.isNetworkAvailable(context.get())
         return isNetworkAvailable
@@ -65,6 +71,34 @@ class NetworkDetector private constructor(context: Context?) : NetworkChangeRece
         }
         //updateCurrentNetworkStatus()
     }
+
+    fun removeNetworkChangeListener(networkChangeListener: NetworkChangeListener?){
+
+        val iterator: MutableIterator<WeakReference<NetworkChangeListener?>> = mNetworkChangeListenerList.iterator()
+
+        while (iterator.hasNext()){
+            val ref : WeakReference<NetworkChangeListener?> =iterator.next()
+            val mInternetChangeListener: NetworkChangeListener? = ref.get()
+            if (mInternetChangeListener==null){
+                ref.clear()
+                iterator.remove()
+                continue
+
+            }
+
+            if(mInternetChangeListener == networkChangeListener){
+                ref.clear()
+                iterator.remove()
+                break
+            }
+        }
+
+        if (mNetworkChangeListenerList.size == 0){
+            unregisterNetworkChangeReceiver()
+        }
+
+    }
+
 
     private fun updateCurrentNetworkStatus() {
 
@@ -110,6 +144,29 @@ class NetworkDetector private constructor(context: Context?) : NetworkChangeRece
         networkChangeReceiver=null
         isNetworkChangeListenerRegisterd = false
 
+
+    }
+    fun showSnackBar(rootView:View,isNetworkAvailable: Boolean){
+
+        if (isNetworkAvailable) {
+            showSuccessSnackBar(rootView)
+        }else{
+            showErrorSnackBar(rootView)
+
+        }
+
+
+    }
+
+    private fun showErrorSnackBar(rootView: View,errorMsg:String = "Network Not Available") {
+        var errorSnackBar:Snackbar = Snackbar.make(rootView,errorMsg,Snackbar.LENGTH_SHORT)
+        errorSnackBar.show()
+
+    }
+
+    private fun showSuccessSnackBar(rootView: View,errorMsg:String = "Network Available") {
+        var errorSnackBar:Snackbar = Snackbar.make(rootView,errorMsg,Snackbar.LENGTH_SHORT)
+        errorSnackBar.show()
 
     }
 
