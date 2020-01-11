@@ -59,7 +59,9 @@ class NetworkDetector private constructor(context: Context?) : NetworkChangeRece
         return isNetworkAvailable
     }
 
-
+    /**
+     * This method used to add listener for activity, fragment
+     */
     fun addNetworkChangeListener(networkChangeListener: NetworkChangeListener?){
 
 
@@ -103,6 +105,9 @@ class NetworkDetector private constructor(context: Context?) : NetworkChangeRece
     }
 
 
+    /**
+     * This method is used to provide current status of network when device network changed triggered
+     */
     private fun updateCurrentNetworkStatus() {
 
         val iterator: MutableIterator<WeakReference<NetworkChangeListener?>> = mNetworkChangeListenerList.iterator()
@@ -119,6 +124,9 @@ class NetworkDetector private constructor(context: Context?) : NetworkChangeRece
 
     }
 
+    /**
+     * This method used to register broadcast receiver
+     */
     private fun registerNetworkChangeReceiver() {
 
         val context:Context?=this.context.get()
@@ -133,6 +141,9 @@ class NetworkDetector private constructor(context: Context?) : NetworkChangeRece
 
     }
 
+    /**
+     * This method is used to unregister broadcast receiver
+     */
     private fun unregisterNetworkChangeReceiver() {
 
 
@@ -149,6 +160,11 @@ class NetworkDetector private constructor(context: Context?) : NetworkChangeRece
 
 
     }
+
+
+    /**
+     * This method is used to display snackbar with message
+     */
     fun showSnackBar(rootView:View,isNetworkAvailable: Boolean){
 
         if (isNetworkAvailable) {
@@ -161,12 +177,18 @@ class NetworkDetector private constructor(context: Context?) : NetworkChangeRece
 
     }
 
+    /**
+     * This method is used to display snack bar with error message
+     */
     private fun showErrorSnackBar(rootView: View,errorMsg:String = "Network Not Available") {
         var errorSnackBar:Snackbar = Snackbar.make(rootView,errorMsg,Snackbar.LENGTH_SHORT)
         errorSnackBar.show()
 
     }
 
+    /**
+     * This method is used to display snack bar with network available message
+     */
     private fun showSuccessSnackBar(rootView: View,errorMsg:String = "Network Available") {
         var errorSnackBar:Snackbar = Snackbar.make(rootView,errorMsg,Snackbar.LENGTH_SHORT)
         errorSnackBar.show()
