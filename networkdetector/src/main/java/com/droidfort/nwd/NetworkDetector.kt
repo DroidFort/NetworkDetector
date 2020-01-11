@@ -72,6 +72,9 @@ class NetworkDetector private constructor(context: Context?) : NetworkChangeRece
         //updateCurrentNetworkStatus()
     }
 
+    /**
+     * This method removed network listener
+     */
     fun removeNetworkChangeListener(networkChangeListener: NetworkChangeListener?){
 
         val iterator: MutableIterator<WeakReference<NetworkChangeListener?>> = mNetworkChangeListenerList.iterator()
